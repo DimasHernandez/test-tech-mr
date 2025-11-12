@@ -10,7 +10,7 @@ Content-Type: application/json
   "firstName": "john",
   "lastName": "test",
   "dateOfBirth": "2020-05-10",
-  "studentCode": "A6"
+  "studentCode": "A1"
 }
 
 ### get student

@@ -13,6 +13,7 @@ public interface StudentMapper {
 
     StudentRequest toRequest(StudentResponse student);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "studentCode", target = "studentCode")
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
