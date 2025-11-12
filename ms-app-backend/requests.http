@@ -7,10 +7,10 @@ POST http://localhost:9000/api/v1/students
 Content-Type: application/json
 
 {
-  "firstName": "john",
+  "firstName": "juan",
   "lastName": "test",
   "dateOfBirth": "2020-05-10",
-  "studentCode": "A1"
+  "studentCode": "A4"
 }
 
 ### get student
