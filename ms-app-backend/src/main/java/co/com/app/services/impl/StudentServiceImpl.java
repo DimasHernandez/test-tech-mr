@@ -1,6 +1,7 @@
 package co.com.app.services.impl;
 
-import co.com.app.controllers.dto.request.StudentDTO;
+import co.com.app.controllers.dto.request.StudentRequest;
+import co.com.app.controllers.dto.response.StudentResponse;
 import co.com.app.dao.StudentDAORepository;
 import co.com.app.dao.projections.StudentProjection;
 import co.com.app.mappers.StudentMapper;
@@ -27,20 +28,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDTO createStudent(StudentDTO dto) {
+    public StudentResponse createStudent(StudentRequest dto) {
         try {
             Student student = mapper.toEntity(dto);
-            return mapper.toDto(repository.save(student));
+            return mapper.toDTOResponse(repository.save(student));
         } catch (Exception e) {
             return null;
         }
     }
 
     @Override
-    public List<StudentDTO> findAllStudents() {
-        List<Student> students = (List<Student>) repository.findAll();
+    public List<StudentResponse> findAllStudents() {
+        List<Student> students = repository.findAll();
         return students.stream()
-                .map(mapper::toDto)
+                .map(mapper::toDTOResponse)
                 .toList();
     }
 

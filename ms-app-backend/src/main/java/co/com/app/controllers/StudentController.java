@@ -1,7 +1,9 @@
 package co.com.app.controllers;
 
-import co.com.app.controllers.dto.request.StudentDTO;
+import co.com.app.controllers.dto.request.StudentRequest;
 import co.com.app.controllers.dto.response.APIResponse;
+import co.com.app.controllers.dto.response.StudentResponse;
+import co.com.app.mappers.StudentMapper;
 import co.com.app.services.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,19 +24,20 @@ import java.util.Objects;
 public class StudentController {
 
     private final StudentService studentService;
+    private final StudentMapper mapper;
 
     @GetMapping
-    public ResponseEntity<APIResponse<List<StudentDTO>>> students() {
+    public ResponseEntity<APIResponse<List<StudentResponse>>> students() {
         var students = studentService.findAllStudents();
         if (students.isEmpty()) {
-            return ResponseEntity.ok(APIResponse.<List<StudentDTO>>builder()
+            return ResponseEntity.ok(APIResponse.<List<StudentResponse>>builder()
                     .status(HttpStatus.NOT_FOUND)
                     .message("No students")
                     .data(Collections.emptyList())
                     .build());
         }
 
-        return ResponseEntity.ok(APIResponse.<List<StudentDTO>>builder()
+        return ResponseEntity.ok(APIResponse.<List<StudentResponse>>builder()
                 .message("Students found")
                 .status(HttpStatus.OK)
                 .data(students)
@@ -42,12 +45,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<APIResponse<StudentDTO>> saveStudent(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<APIResponse<StudentResponse>> saveStudent(@RequestBody StudentRequest studentRequest) {
         try {
-            StudentDTO dto = studentService.createStudent(studentDTO);
+            StudentResponse dto = studentService.createStudent(studentRequest);
             if (Objects.isNull(dto)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).
-                        body(APIResponse.<StudentDTO>builder()
+                        body(APIResponse.<StudentResponse>builder()
                                 .status(HttpStatus.BAD_REQUEST)
                                 .message("Student cannot be created")
                                 .data(null)
@@ -55,14 +58,14 @@ public class StudentController {
                         );
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(
-                    APIResponse.<StudentDTO>builder()
+                    APIResponse.<StudentResponse>builder()
                             .message("Student created")
                             .status(HttpStatus.CREATED)
                             .data(dto)
                             .build()
             );
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(APIResponse.<StudentDTO>builder()
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(APIResponse.<StudentResponse>builder()
                     .message("Please try again later")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .data(null)

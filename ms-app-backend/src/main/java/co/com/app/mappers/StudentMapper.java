@@ -1,22 +1,18 @@
 package co.com.app.mappers;
 
-import co.com.app.controllers.dto.request.StudentDTO;
+import co.com.app.controllers.dto.request.StudentRequest;
+import co.com.app.controllers.dto.response.StudentResponse;
 import co.com.app.models.Student;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper
 public interface StudentMapper {
 
-    @Mapping(target = "firstName", source = "firstName")
-    @Mapping(target = "lastName", source = "lastName")
-    @Mapping(target = "studentCode", source = "studentCode")
-    @Mapping(target = "dateOfBirth", source = "dateOfBirth")
-    Student toEntity(StudentDTO studentDTO);
+    StudentResponse toResponse(StudentRequest studentRequest);
 
-    @Mapping(target = "firstName", source = "firstName")
-    @Mapping(target = "lastName", source = "lastName")
-    @Mapping(target = "studentCode", source = "studentCode")
-    @Mapping(target = "dateOfBirth", source = "dateOfBirth")
-    StudentDTO toDto(Student student);
+    StudentRequest toRequest(StudentResponse student);
+
+    Student toEntity(StudentRequest studentRequest);
+
+    StudentResponse toDTOResponse(Student student);
 }

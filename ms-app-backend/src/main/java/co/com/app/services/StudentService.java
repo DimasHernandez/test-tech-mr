@@ -1,6 +1,7 @@
 package co.com.app.services;
 
-import co.com.app.controllers.dto.request.StudentDTO;
+import co.com.app.controllers.dto.request.StudentRequest;
+import co.com.app.controllers.dto.response.StudentResponse;
 import co.com.app.dao.projections.StudentProjection;
 
 import java.util.List;
@@ -8,9 +9,9 @@ import java.util.List;
 public interface StudentService {
     StudentProjection findByStudentCode(String studentCode);
 
-    StudentDTO createStudent(StudentDTO dto);
+    StudentResponse createStudent(StudentRequest dto);
 
-    List<StudentDTO> findAllStudents();
+    List<StudentResponse> findAllStudents();
 
     void deleteStudentById(Long id);
 
