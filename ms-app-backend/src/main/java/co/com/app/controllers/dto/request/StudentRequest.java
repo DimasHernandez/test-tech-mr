@@ -1,16 +1,13 @@
 package co.com.app.controllers.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class StudentRequest {
     private String studentCode;
     private String firstName;
