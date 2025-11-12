@@ -4,15 +4,28 @@ import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { IStudent } from '../../interfaces';
+import { Router } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-students',
-  imports: [MatTableModule, MatButtonModule, MatTable, MatIconModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatTable,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './list-students.component.html',
   styleUrl: './list-students.component.css',
 })
 export class ListStudentsComponent implements OnInit {
   private readonly studentService = inject(StudentService);
+  private readonly router = inject(Router);
 
   students: IStudent[] = [];
   displayColumns: string[] = [
@@ -28,7 +41,9 @@ export class ListStudentsComponent implements OnInit {
     this.getStudents();
   }
 
-  addStudent() {}
+  addStudent(): void {
+    this.router.navigate(['/students/add']);
+  }
 
   removeStudent(id: string) {
     this.studentService.deleteStudent(id).subscribe({
@@ -46,34 +61,3 @@ export class ListStudentsComponent implements OnInit {
     });
   }
 }
-
-const STUDENTS_RAW: IStudent[] = [
-  {
-    id: '1',
-    studentCode: 'A10',
-    firstName: 'Juan',
-    lastName: 'Zapata',
-    dateOfBirth: '2010-01-20',
-  },
-  {
-    id: '1',
-    studentCode: 'A10',
-    firstName: 'Juan',
-    lastName: 'Zapata',
-    dateOfBirth: '2010-01-20',
-  },
-  {
-    id: '1',
-    studentCode: 'A10',
-    firstName: 'Juan',
-    lastName: 'Zapata',
-    dateOfBirth: '2010-01-20',
-  },
-  {
-    id: '1',
-    studentCode: 'A10',
-    firstName: 'Juan',
-    lastName: 'Zapata',
-    dateOfBirth: '2010-01-20',
-  },
-];

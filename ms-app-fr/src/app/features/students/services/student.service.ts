@@ -28,4 +28,18 @@ export class StudentService {
   deleteStudent(id: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.BASE_URL}/students/${id}`);
   }
+
+  addStudent(student: IStudent): Observable<IStudent> {
+    return this.httpClient
+      .post<IStudentResponse>(`${this.BASE_URL}/students`, student)
+
+      .pipe(
+        map((res) => {
+          if (res.data instanceof Array) {
+            return res.data[0];
+          }
+          return res.data;
+        })
+      );
+  }
 }
