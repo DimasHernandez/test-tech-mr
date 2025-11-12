@@ -7,7 +7,7 @@ import { IStudent } from '../../interfaces';
 
 @Component({
   selector: 'app-list-students',
-  imports: [MatTableModule, MatButtonModule, MatTable,MatIconModule],
+  imports: [MatTableModule, MatButtonModule, MatTable, MatIconModule],
   templateUrl: './list-students.component.html',
   styleUrl: './list-students.component.css',
 })
@@ -21,20 +21,30 @@ export class ListStudentsComponent implements OnInit {
     'firstName',
     'lastName',
     'dateOfBirth',
-    'delete'
+    'delete',
   ];
 
   ngOnInit(): void {
+    this.getStudents();
+  }
+
+  addStudent() {}
+
+  removeStudent(id: string) {
+    this.studentService.deleteStudent(id).subscribe({
+      next: () => {
+        this.getStudents();
+      },
+    });
+  }
+
+  getStudents(): void {
     this.studentService.getAllStudents().subscribe({
       next: (stdts) => {
         this.students = stdts;
       },
     });
   }
-
-  addData() {}
-
-  removeData() {}
 }
 
 const STUDENTS_RAW: IStudent[] = [

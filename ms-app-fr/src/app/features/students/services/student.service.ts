@@ -13,13 +13,19 @@ export class StudentService {
   private readonly BASE_URL = environment.BASE_URL;
 
   getAllStudents(): Observable<IStudent[]> {
-    return this.httpClient.get<IStudentResponse>(`${this.BASE_URL}/students`).pipe(
-      map((res) => {
-        if (res.data instanceof Array) {
-          return res.data;
-        }
-        return [];
-      })
-    );
+    return this.httpClient
+      .get<IStudentResponse>(`${this.BASE_URL}/students`)
+      .pipe(
+        map((res) => {
+          if (res.data instanceof Array) {
+            return res.data;
+          }
+          return [];
+        })
+      );
+  }
+
+  deleteStudent(id: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.BASE_URL}/students/${id}`);
   }
 }
