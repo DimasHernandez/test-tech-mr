@@ -1,0 +1,14 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### create student
+POST http://localhost:9000/api/v1/students
+Content-Type: application/json
+
+{
+  "firstName": "john",
+  "lastName": "test",
+  "dateOfBirth": "2020-05-10",
+  "studentCode": "A1"
+}
