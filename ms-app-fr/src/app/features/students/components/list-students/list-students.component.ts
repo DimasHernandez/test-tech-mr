@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { StudentService } from '../../services/student.service';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { IStudent } from '../../interfaces';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    RouterLink
   ],
   templateUrl: './list-students.component.html',
   styleUrl: './list-students.component.css',
@@ -34,6 +35,7 @@ export class ListStudentsComponent implements OnInit {
     'firstName',
     'lastName',
     'dateOfBirth',
+    'edit',
     'delete',
   ];
 
@@ -53,10 +55,18 @@ export class ListStudentsComponent implements OnInit {
     });
   }
 
+  updateStudent(id: string) {
+    this.router.navigate(['/students/add'],
+      {
+        queryParams: { id: id }
+      }
+    );
+  }
+
   getStudents(): void {
     this.studentService.getAllStudents().subscribe({
-      next: (stdts) => {
-        this.students = stdts;
+      next: (students) => {
+        this.students = students;
       },
     });
   }
