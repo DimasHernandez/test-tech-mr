@@ -7,5 +7,5 @@ public interface StudentProjection {
 
     String getStudentCode();
 
-    String getDateOfBirth();
+    //String getDateOfBirth();
 }

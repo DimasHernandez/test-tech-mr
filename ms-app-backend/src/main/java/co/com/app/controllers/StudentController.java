@@ -3,6 +3,7 @@ package co.com.app.controllers;
 import co.com.app.controllers.dto.request.StudentRequest;
 import co.com.app.controllers.dto.response.APIResponse;
 import co.com.app.controllers.dto.response.StudentResponse;
+import co.com.app.dao.projections.StudentProjection;
 import co.com.app.mappers.StudentMapper;
 import co.com.app.services.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ import java.util.Objects;
 public class StudentController {
 
     private final StudentService studentService;
-    private final StudentMapper mapper;
 
     @GetMapping
     public ResponseEntity<APIResponse<List<StudentResponse>>> students() {
@@ -38,6 +38,19 @@ public class StudentController {
                 .message("Students found")
                 .status(HttpStatus.OK)
                 .data(students)
+                .build());
+    }
+
+    @GetMapping("/projection/{statusCode}")
+    public ResponseEntity<APIResponse<StudentProjection>> studentsProjection(@PathVariable String statusCode) {
+        StudentProjection studentProjection = studentService.findByStudentCode(statusCode);
+        if (Objects.isNull(studentProjection)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(APIResponse.<StudentProjection>builder()
+                .status(HttpStatus.OK)
+                .message("Student projection found")
+                .data(studentProjection)
                 .build());
     }
 
@@ -62,11 +75,32 @@ public class StudentController {
                             .build()
             );
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(APIResponse.<StudentResponse>builder()
-                    .message("Please try again later")
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .data(null)
-                    .build());
+            return getPleaseTryAgainLater();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse<StudentResponse>> updateStudent(@PathVariable Long id, @RequestBody StudentRequest studentRequest) {
+        try {
+            StudentResponse dto = studentService.updateStudent(id, studentRequest);
+            if (Objects.isNull(dto)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+                        body(APIResponse.<StudentResponse>builder()
+                                .status(HttpStatus.BAD_REQUEST)
+                                .message("Student cannot be updated")
+                                .data(null)
+                                .build()
+                        );
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    APIResponse.<StudentResponse>builder()
+                            .status(HttpStatus.OK)
+                            .message("Student updated")
+                            .data(dto)
+                            .build()
+            );
+        } catch (Exception e) {
+            return getPleaseTryAgainLater();
         }
     }
 
@@ -80,5 +114,13 @@ public class StudentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    private static ResponseEntity<APIResponse<StudentResponse>> getPleaseTryAgainLater() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(APIResponse.<StudentResponse>builder()
+                .message("Please try again later")
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .data(null)
+                .build());
     }
 }

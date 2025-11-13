@@ -10,11 +10,25 @@ Content-Type: application/json
   "firstName": "juan",
   "lastName": "test",
   "dateOfBirth": "2020-05-10",
-  "studentCode": "A4"
+  "studentCode": "A1"
 }
 
-### get student
+### updated student
+PUT http://localhost:9000/api/v1/students/1
+Content-Type: application/json
+
+{
+  "firstName": "Felipe",
+  "lastName": "Cardona",
+  "dateOfBirth": "2000-05-10",
+  "studentCode": "A3"
+}
+
+### get students
 GET http://localhost:9000/api/v1/students
+
+### get student projection
+GET http://localhost:9000/api/v1/students/projection/A3
 
 ### delete student by Id
 DELETE http://localhost:9000/api/v1/students/1

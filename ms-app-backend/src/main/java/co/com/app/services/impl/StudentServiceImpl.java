@@ -46,9 +46,31 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentResponse updateStudent(Long id, StudentRequest dto) {
+        try {
+            Student studentToUpdate = findStudentById(id);
+
+            studentToUpdate.setFirstName(dto.getFirstName());
+            studentToUpdate.setLastName(dto.getLastName());
+            studentToUpdate.setDateOfBirth(dto.getDateOfBirth());
+            studentToUpdate.setStudentCode(dto.getStudentCode());
+
+            Student studentSaved = repository.save(studentToUpdate);
+            return mapper.toDTOResponse(studentSaved);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public void deleteStudentById(Long id) {
         if (Objects.nonNull(id) && repository.existsById(id)) {
             repository.deleteById(id);
         }
+    }
+
+    private Student findStudentById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 }

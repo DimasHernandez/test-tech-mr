@@ -13,6 +13,8 @@ public interface StudentService {
 
     List<StudentResponse> findAllStudents();
 
+    StudentResponse updateStudent(Long id, StudentRequest dto);
+
     void deleteStudentById(Long id);
 
 }
