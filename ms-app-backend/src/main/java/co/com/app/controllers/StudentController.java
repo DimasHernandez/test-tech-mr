@@ -54,6 +54,25 @@ public class StudentController {
                 .build());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<APIResponse<StudentResponse>> studentById(@PathVariable Long id) {
+        try {
+            StudentResponse student = studentService.getStudentById(id);
+            return ResponseEntity.ok(APIResponse.<StudentResponse>builder()
+                    .status(HttpStatus.OK)
+                    .message("Student found")
+                    .data(student)
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(APIResponse.<StudentResponse>builder()
+                            .status(HttpStatus.NOT_FOUND)
+                            .message("Student not found")
+                            .data(null)
+                            .build());
+        }
+    }
+
     @PostMapping
     public ResponseEntity<APIResponse<StudentResponse>> saveStudent(@RequestBody StudentRequest studentRequest) {
         try {

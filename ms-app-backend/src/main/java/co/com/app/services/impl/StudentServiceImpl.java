@@ -46,6 +46,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentResponse getStudentById(Long id) {
+        return mapper.toDTOResponse(findStudentById(id));
+    }
+
+    @Override
     public StudentResponse updateStudent(Long id, StudentRequest dto) {
         try {
             Student studentToUpdate = findStudentById(id);
@@ -73,4 +78,6 @@ public class StudentServiceImpl implements StudentService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
     }
+
+
 }

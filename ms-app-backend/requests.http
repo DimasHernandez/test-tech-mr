@@ -24,6 +24,9 @@ Content-Type: application/json
   "studentCode": "A3"
 }
 
+### get student by id
+GET http://localhost:9000/api/v1/students/1
+
 ### get students
 GET http://localhost:9000/api/v1/students
 
